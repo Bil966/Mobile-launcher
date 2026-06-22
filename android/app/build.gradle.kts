@@ -1,4 +1,3 @@
-// android/app/build.gradle.kts
 plugins {
     id("com.android.application")
     id("dev.flutter.flutter-gradle-plugin")
@@ -19,18 +18,6 @@ android {
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-    }
-
-    // Giữ nguyên logic ép SDK 36 của bạn
-    subprojects {
-        afterEvaluate { project ->
-            if (project.hasProperty("android")) {
-                val androidExt = project.extensions.findByName("android")
-                if (androidExt is com.android.build.gradle.BaseExtension) {
-                    androidExt.compileSdkVersion(36)
-                }
-            }
-        }
     }
 }
 
