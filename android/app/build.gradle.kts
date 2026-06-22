@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.neonlauncher.geode_mod_manager"
-    compileSdk = 36 // Ép buộc SDK 36
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -20,13 +20,14 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-    
-    // Ép buộc tất cả plugin con dùng chung SDK 36
+
+    // Giữ nguyên logic ép SDK 36 của bạn
     subprojects {
         afterEvaluate { project ->
             if (project.hasProperty("android")) {
-                project.android {
-                    compileSdk = 36
+                val androidExt = project.extensions.findByName("android")
+                if (androidExt is com.android.build.gradle.BaseExtension) {
+                    androidExt.compileSdkVersion(36)
                 }
             }
         }
