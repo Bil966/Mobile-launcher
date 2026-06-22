@@ -1,15 +1,27 @@
-// android/build.gradle.kts
 plugins {
-    id("com.android.application")  apply false
-    id("com.android.library")   apply false
-    id("org.jetbrains.kotlin.android")  apply false
-    id("dev.flutter.flutter-gradle-plugin")  apply false
+    // Ép phiên bản tại đây để Flutter không tự ý "Upgrade" gây lỗi
+    id("com.android.application") version "8.7.0" apply false
+    id("com.android.library") version "8.7.0" apply false
+    id("org.jetbrains.kotlin.android") version "2.0.0" apply false
+    id("dev.flutter.flutter-gradle-plugin") version "1.0.0" apply false
 }
 
 allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+// Logic ép SDK 36 toàn cục (Nằm ở root để nhận diện mọi module)
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            val androidExt = project.extensions.findByName("android")
+            if (androidExt is com.android.build.gradle.BaseExtension) {
+                androidExt.compileSdkVersion(36)
+            }
+        }
     }
 }
 
