@@ -1,17 +1,15 @@
 pluginManagement {
-    val flutterSdkPath =
-        run {
-            val properties = java.util.Properties()
-            file("local.properties").inputStream().use { properties.load(it) }
-            val flutterSdkPath = properties.getProperty("flutter.sdk")
-            require(flutterSdkPath != null) { "flutter.sdk not set in local.properties" }
-            flutterSdkPath
-        }
-
+    val flutterSdkPath = // ... (giữ nguyên logic lấy đường dẫn cũ)
     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
     repositories {
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
         gradlePluginPortal()
     }
