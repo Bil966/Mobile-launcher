@@ -1,8 +1,7 @@
-// Top-level build file where you can add configuration options common to all sub-projects.
-
+// android/build.gradle.kts
 plugins {
-    id("com.android.application") version "8.7.0" apply false
-    id("com.android.library") version "8.7.0" apply false
+    id("com.android.application") apply false
+    id("com.android.library") apply false
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id("dev.flutter.flutter-gradle-plugin") version "1.0.0" apply false
 }
@@ -14,8 +13,6 @@ allprojects {
     }
 }
 
-// XÓA đoạn `project.evaluationDependsOn(":app")` đi vì nó gây lỗi build
-// Nếu bạn cần cấu hình thư mục build riêng, hãy để lại phần config buildDir
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
 rootProject.layout.buildDirectory.value(newBuildDir)
 
