@@ -1,13 +1,12 @@
+// android/app/build.gradle.kts
 plugins {
     id("com.android.application")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
     namespace = "com.neonlauncher.geode_mod_manager"
-    compileSdk = 36 // Đã cập nhật
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 36 // Ép buộc SDK 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -16,15 +15,20 @@ android {
 
     defaultConfig {
         applicationId = "com.neonlauncher.geode_mod_manager"
-        minSdk = flutter.minSdkVersion
-        targetSdk = 36 // Đã cập nhật
+        minSdk = 23
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
-
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("debug")
+    
+    // Ép buộc tất cả plugin con dùng chung SDK 36
+    subprojects {
+        afterEvaluate { project ->
+            if (project.hasProperty("android")) {
+                project.android {
+                    compileSdk = 36
+                }
+            }
         }
     }
 }
