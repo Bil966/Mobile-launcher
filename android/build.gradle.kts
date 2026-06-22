@@ -1,5 +1,3 @@
-
-    // android/build.gradle.kts
 plugins {
     id("com.android.application") version "8.7.0" apply false
     id("com.android.library") version "8.7.0" apply false
@@ -14,24 +12,11 @@ allprojects {
     }
 }
 
-// Logic ép SDK 36 toàn cục (Nằm ở root để nhận diện mọi module)
-subprojects {
-    afterEvaluate { project ->
-        if (project.hasProperty("android")) {
-            val androidExt = project.extensions.findByName("android")
-            if (androidExt is com.android.build.gradle.BaseExtension) {
-                androidExt.compileSdkVersion(36)
-            }
-        }
-    }
-}
-
-val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
+val newBuildDir = rootProject.layout.buildDirectory.dir("../../build").get()
 rootProject.layout.buildDirectory.value(newBuildDir)
 
 subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
+    layout.buildDirectory.value(newBuildDir.dir(name))
 }
 
 tasks.register<Delete>("clean") {
